@@ -1,3 +1,5 @@
+![TravisCI status](https://travis-ci.org/ltw/cure-for-matasano.svg?branch=master)
+
 # matasano
 
 The solutions to the [Matasano crypto challenges](http://cryptopals.com) in Clojure by me, @ltw.

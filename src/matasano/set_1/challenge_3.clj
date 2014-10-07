@@ -1,5 +1,5 @@
 (ns ^{:author "Lucas Willett"
-      :desc "Using the approximate frequency of commonly used letters
+      :desc   "Using the approximate frequency of commonly used letters
               in the English language, this decodes a hexadecimal string
               against each letter of the alphabet and then scores the most
               likely result."}

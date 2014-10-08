@@ -1,5 +1,5 @@
 (ns ^{:author "Lucas Willett"
-      :desc "Using the approximate frequency of commonly used letters
+      :desc   "Using the approximate frequency of commonly used letters
               in the English language, this decodes a hexadecimal string
               against each letter of the alphabet and then scores the most
               likely result."}
@@ -19,7 +19,7 @@
 
 (def xor-character-bytes
   "Returns a byte array of all alphabetic characters"
-  (concat (char-range-in-bytes \A \Z) (char-range-in-bytes \a \z)))
+  (range 0 255))
 
 (defn get-letter-score-for-decryption
   ;; TODO - fix the docstring
@@ -35,10 +35,12 @@
   "XORs an input sequence against a single byte, and returns a decoding score
   for the resulting XOR'd sequence"
   [input-seq score-fn xor-byte]
-  (let [result (map (partial bit-xor xor-byte) input-seq)]
-    {:score  (score-fn result)
-     :result (s/join (map char result))
-     :char   (char xor-byte)}))
+  (let [result (byte-array (map (partial bit-xor xor-byte) input-seq))]
+    (try
+      {:score  (score-fn result)
+       :result (s/join (map char result))
+       :char   (char xor-byte)}
+      (catch IllegalArgumentException e))))
 
 (defn get-result
   "Figures out the optimal result and returns it"
@@ -51,10 +53,9 @@
   (let [input-bytes (c/hex->bytes input) ; only ever work in bytes
         score-fn    get-letter-score-for-decryption]
     (->> xor-character-bytes
-         (map (partial xor-on-bytes input-bytes score-fn))
-         get-result)))
+         (map (partial xor-on-bytes input-bytes score-fn)))))
 
 (defn run
   "Challenge 3: Single-byte XOR cipher"
   []
-  (:result (decode "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")))
+  (:result (get-result (decode "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"))))

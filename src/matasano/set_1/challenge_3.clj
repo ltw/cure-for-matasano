@@ -35,10 +35,12 @@
   "XORs an input sequence against a single byte, and returns a decoding score
   for the resulting XOR'd sequence"
   [input-seq score-fn xor-byte]
-  (let [result (map (partial bit-xor xor-byte) input-seq)]
-    {:score  (score-fn result)
-     :result (s/join (map char result))
-     :char   (char xor-byte)}))
+  (let [result (byte-array (map (partial bit-xor xor-byte) input-seq))]
+    (try
+      {:score  (score-fn result)
+       :result (s/join (map char result))
+       :char   (char xor-byte)}
+      (catch IllegalArgumentException e))))
 
 (defn get-result
   "Figures out the optimal result and returns it"

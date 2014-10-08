@@ -2,16 +2,13 @@
   (:require [matasano.converters :as c]
             [clojure.string :as s]))
 
-(defn xor->hex-str [byte1 byte2]
-  (format "%x" (bit-xor byte1 byte2)))
-
 (defn fixed-xor
   "XORs two hexadecimal strings"
   [hex1 hex2]
-  (s/join
-   (map #(xor->hex-str %1 %2)
-        (c/hex->bytes hex1)
-        (c/hex->bytes hex2))))
+  (-> (map bit-xor
+           (c/hex->bytes hex1)
+           (c/hex->bytes hex2))
+      c/bytes->hex))
 
 (defn run
   "Challenge 2: Fixed XOR"

@@ -51,10 +51,9 @@
   (let [input-bytes (c/hex->bytes input) ; only ever work in bytes
         score-fn    get-letter-score-for-decryption]
     (->> xor-character-bytes
-         (map (partial xor-on-bytes input-bytes score-fn))
-         get-result)))
+         (map (partial xor-on-bytes input-bytes score-fn)))))
 
 (defn run
   "Challenge 3: Single-byte XOR cipher"
   []
-  (:result (decode "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")))
+  (:result (get-result (decode "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"))))

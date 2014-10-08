@@ -19,7 +19,7 @@
 
 (def xor-character-bytes
   "Returns a byte array of all alphabetic characters"
-  (concat (char-range-in-bytes \A \Z) (char-range-in-bytes \a \z)))
+  (range 0 255))
 
 (defn get-letter-score-for-decryption
   ;; TODO - fix the docstring

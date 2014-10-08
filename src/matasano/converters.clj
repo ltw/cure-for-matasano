@@ -25,7 +25,7 @@
 (defn bytes->hex
   "Converts a byte array into a hexadecimal string"
   [bytes]
-  (s/join (map (partial format "%x") bytes)))
+  (s/join (map (partial format "%02x") bytes)))
 
 (defn str->base64
   "Converts a UTF-8 string into a base64-encoded string"
